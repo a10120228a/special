@@ -1,4 +1,5 @@
 $(function(){
+    //这里是用jQuery写的散乱排列的相册的效果
     class PhotoList {
         constructor(){
             this.ele = $('#box');//要插入到的节点
