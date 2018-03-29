@@ -1,0 +1,8 @@
+﻿let a = 1;
+let b = 1000;
+let timer = setInterval(function(){
+		
+		b = b >>> a
+		console.log(b);
+		
+	},1000)
