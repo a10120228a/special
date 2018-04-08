@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>小球碰撞</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        body{overflow:hidden;}
+        #main{position:relative;width:1000px;height:800px;}
+        p{width:151px;height:151px;opacity:0.8;border-radius:50%;position:absolute;overflow:hidden; }
+    </style>
+</head>
+<body>
+<div id="main">
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+</div>
+<script>
+    //首先获取元素
+    var box = document.getElementById("main");
+    var chi = box.querySelectorAll("p");
+    var chiWidth = chi[0].offsetWidth;
+    var chiHeight = chi[0].offsetHeight;
+    var maxw = 0;
+    var maxh = 0;
+    //第二步，添加窗口改变事件
+    window.onresize = function (){
+        var box = document.getElementById("main");
+        maxw = window.innerWidth - chi[0].clientWidth;
+        maxh = window.innerHeight - chi[0].clientHeight;
+        box.style.width = window.innerWidth + "px";
+        box.style.height = window.innerHeight + "px";
+    }
+    onresize();
+    //定义两个数组。用来存放小盒子的运动数据
+    var json = [],arr = [];
+    //遍历所有子元素，重新定义
+    for(var i = 0;i < chi.length;i++){
+        arr = [];
+        arr.x = Math.floor(Math.random() * (maxw + 50));//初始位置
+        arr.y = Math.floor(Math.random() * (maxh + 50));//
+        arr.cx = arr.x + chi[0].offsetWidth / 2;//初始圆心位置
+        arr.cy = arr.y + chi[0].offsetHeight / 2;
+        arr.movex = Math.floor(Math.random() * 2);//随机的速度
+        arr.movey = Math.floor(Math.random() * 2);
+        arr.speed = Math.random() + 1;//随机速度
+        arr.timer = null;//定时器
+        arr.index = i;//下标
+        json.push(arr);
+        chi[i].style.left = arr.x + "px";   //定义初始的小球位置
+        chi[i].style.top = arr.y + "px";
+//            var u = Math.floor(Math.random() * 6 + 1);
+        let array = ['deeppink','magenta','doderblue','deepskyblue','cyan','mediumspringgreen','deeppink','magenta','doderblue','deepskyblue','cyan','mediumspringgreen'];
+        chi[i].style.background = array[i];
+    }
+    //定义碰撞函数
+    function peng(a){
+        var b1x = json[a].cx;  //当前小球的圆心
+        var b1y = json[a].cy;
+        //遍历json数组，检测碰撞
+        for(var i = 0;i < json.length;i++){
+            if(i != a){
+                var b2x = json[i].cx;   //碰撞小球的圆心
+                var b2y = json[i].cy;
+                var len = (b1x - b2x) * (b1x - b2x) + (b1y - b2y) * (b1y - b2y);
+                if(len <= chiWidth * chiWidth){
+                    if(b1x >= b2x){
+                        if(b1y >= b2y){
+                            json[a].movex = 1;
+                            json[a].movey = 1;
+                        }else if(b1y <= b2y){
+                            json[a].movex = 1;
+                            json[a].movey = -1;
+                        }else{
+                            json[a].movex = 1;
+                        }
+                    }else if(b1x <= b2x){
+                        if(b1y >= b2y) {
+                            json[a].movex = -1;
+                            json[a].movey = -1;
+                        }else if(b1y <= b2y){
+                            json[a].movex = -1;
+                            json[a].movey = 1;
+                        }else{
+                            json[a].movey = -1;
+                        }
+                    }else{
+                        if(b1y >= b2y){
+                            json[a].movey = 1;
+                        }else if(b1y <= b2y){
+                            json[a].movey = -1
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //封装运动函数
+    function move(c){
+        c.timer = setInterval(function(){
+            if(c.movex == 1){
+                c.x += c.speed;
+                if(c.x + c.speed >= maxw){
+                    c.x= maxw;
+                    c.movex = -1;
+                }
+            }else{
+                c.x -= c.speed;
+                if(c.x - c.speed <= 0){
+                    c.x = 0;
+                    c.movex = 1;
+                }
+            }
+            if(c.movey == 1){
+                c.y += c.speed;
+                if(c.y + c.speed >= maxh){
+                    c.y = maxh;
+                    c.movey = -1;
+                }
+            }else{
+                c.y -= c.speed;
+                if(c.y - c.speed <= 0){
+                    c.y = 0;
+                    c.movey = 1;
+                }
+            }
+            //重新定义圆心
+            c.cx = c.x + chi[0].offsetWidth / 2;
+            c.cy = c.y + chi[0].offsetHeight / 2;
+            chi[c.index].style.left = c.x + "px";
+            chi[c.index].style.top = c.y + "px";
+            peng(c.index);
+        },10)
+    }
+    for(var i = 0;i < chi.length;i++){
+        move(json[i]);
+    }
+</script>
+</body>
+</html>
