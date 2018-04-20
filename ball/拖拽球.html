@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        html,body{
+            background:black;
+            overflow:hidden;
+        }
+        #b{
+            width:100px;
+            height:100px;
+            background:radial-gradient(white,aqua);
+            border-radius:50%;
+            position:absolute;
+            top:0;
+        }
+        #btn{
+            width:200px;
+            height:30px;
+            font-size:18px;
+            background:radial-gradient(yellow,red);
+            border-radius:5px;
+            color:white;
+            position:fixed;
+            right:0;
+            top:0;
+        }
+    </style>
+</head>
+<body>
+<button id="btn">归位</button>
+<div id="b"></div>
+<script>
+    const b = document.getElementById('b');
+    let timer = null;
+    const btn = document.getElementById('btn');
+    let st = true;
+
+    //归位效果
+    btn.onclick = function(){
+        clearInterval(timer);
+        st = true;
+        b.style.left = 0;
+        b.style.top = 0;
+    }
+
+    document.documentElement.onmousedown = function(e){
+        if(st){
+            st = false;
+            var e = e || window.event;
+            var oldx = e.pageX;
+            var oldy = e.pageY;
+            document.documentElement.onmousemove = function(e){
+                var e = e || window.event;
+                let disx = e.pageX - b.offsetWidth / 2;
+                let disy = e.pageY - b.offsetHeight / 2;
+                b.style.left = disx + 'px';
+                b.style.top = disy + 'px';
+            }
+            document.documentElement.onmouseup = function(e){
+                var e = e || window.event;
+                const newx = e.pageX;
+                const newy = e.pageY;
+                document.documentElement.onmousemove = null;
+                document.documentElement.onmouseup = null;
+                var vy = (newx - oldx) / 4;
+                var ox = newy - oldy;
+                var v = ox > 0 ? 1 : -1;
+                var vx = ox > 0 ? 10 : -10;
+                click(vy,v,vx);
+            }
+        }else{
+            console.log('别着急，总会到你的')
+        }
+    }
+
+
+
+    function click(vy,v,vx,status){
+        clearInterval(timer);
+        let u = 0;
+        timer = setInterval(function(){
+            v += vx;
+            u ++
+            var t = b.offsetTop + v;
+            let s = b.offsetLeft + vy;
+            console.log(u)
+            if(Math.abs(vy) < 5.5){
+                if(u > 250){
+                    clearInterval(timer);
+                }else{
+                    console.log(1);
+                    vy *= 0.9;
+                }
+            }
+            if(t > window.innerHeight - b.offsetHeight){
+                t = window.innerHeight - b.offsetHeight;
+                v *= -1;
+                v *= 0.99;
+            }
+            if(s > window.innerWidth - b.offsetWidth){
+                s = window.innerWidth - b.offsetWidth
+                vy *= -1;
+                vy *= 0.5;
+            }
+            if(s < 0){
+                s = 0
+                vy *= -1;
+                vy *= 0.5;
+            }
+            if(t < 0){
+                t = 0
+                v *= -1;
+                v *= 0.99;
+            }
+            b.style.top = t + 'px';
+            b.style.left = s + 'px';
+        },30)
+    }
+
+</script>
+</body>
+</html>
