@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas尾巴效果</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        html,body{
+            width:100%;
+            height:100%;
+            overflow:hidden;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400" style="display:block;background:black;margin:100px auto;"></canvas>
+<script>
+    var ctx = document.getElementById('canvas');
+    var c = ctx.getContext('2d');
+    var x = 10; //横坐标
+    var y = 10; //纵坐标
+    var r = 10; //圆的半径
+    var vx = Math.floor(Math.random() * 10);
+    var vy = Math.floor(Math.random() * 10);
+    function fillArc(a,b,w,h,vx,vy,r){
+
+        setInterval(function(){
+
+            a += vx;
+            b += vy;
+            if(a < r){
+                a = r;
+                vx = -vx;
+            }
+            if(a > w - r){
+                a = w - r;
+                vx = -vx;
+            }
+            if(b < r){
+                b = r;
+                vy = -vy;
+            }
+            if(b > h - r){
+                b = h - r;
+                vy = -vy;
+            }
+
+            var color = c.createRadialGradient(a + 2,b - 1,0,a + 2,b - 1,6);
+            color.addColorStop(0.1,'yellow');
+            color.addColorStop(1,'red');
+            c.beginPath();
+            c.fillStyle = color;
+            c.arc(a,b,r,0,Math.PI * 180);
+            c.fill();
+
+
+
+            c.beginPath();
+            c.fillStyle = 'rgba(0,0,0,0.2)';
+            c.fillRect(0,0,ctx.width,ctx.height)
+
+//            requestAnimationFrame(fillArc(a,b,w,h,vx,vy))
+
+
+        },30)
+    }
+    fillArc(x,y,ctx.width,ctx.height,vx,vy,r);
+</script>
+</body>
+</html>
