@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    html,body{
+      overflow:hidden;
+      width:100%;
+      height:100%;
+    }
+    #box{
+      width:100px;
+      height:100px;
+      margin:200px auto;
+      position:relative;
+      transform-style:preserve-3d;
+      transform:rotateX(-20deg) rotateY(-20deg);
+      animation:all 20s infinite linear;
+    }
+    #box div{
+      width:100px;
+      height:100px;
+      margin:auto;
+      color:black;
+      line-height:100px;
+      text-align:center;
+      font-size:40px;
+      font-weight:800;
+      border:2px solid #999;
+      position:absolute;
+      backface-visibility:hidden;
+    }
+    .a{
+      background:red;
+      transform:translateZ(51px);
+    }
+    .b{
+      background:aqua;
+      transform:translateZ(-51px) rotateY(180deg);
+    }
+    .c{
+      background:yellow;
+      transform:translateX(-51px) rotateY(-90deg);
+    }
+    .d{
+      background:orange;
+      transform:translateX(51px) rotateY(90deg);
+    }
+    .e{
+      background:deeppink;
+      transform:translateY(-51px) rotateX(90deg);
+    }
+    .f{
+      background:deepskyblue;
+      transform:translateY(51px) rotateX(-90deg);
+    }
+    @keyframes all{
+      0%{
+        transform:rotateY(0deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      10%{
+        transform:rotateY(72deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      20%{
+        transform:rotateY(144deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      30%{
+        transform:rotateY(216deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      40%{
+        transform:rotateY(278deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      50%{
+        transform:rotateY(360deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      60%{
+        transform:rotateY(432deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      70%{
+        transform:rotateY(504deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      80%{
+        transform:rotateY(576deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      90%{
+        transform:rotateY(648deg) rotateX(-20deg) rotateY(-20deg);
+      }
+      100%{
+        transform:rotateY(720deg) rotateX(-20deg) rotateY(-20deg);
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="box">
+  <!--a 前面   b 后面 c左面  d右面  e上面  f下面-->
+  <div class="a">1</div>
+  <div class="b">2</div>
+  <div class="c">3</div>
+  <div class="d">4</div>
+  <div class="e">5</div>
+  <div class="f">6</div>
+</div>
+</body>
+</html>

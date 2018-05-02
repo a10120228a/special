@@ -1,10 +1,16 @@
 /*! jQuery v3.3.1 | (c) JS Foundation and other contributors | jquery.org/license */
+
+
 !function (e, t) {
+    //传入的e是一个对象，this或者是window对象     而t是一个函数，并且将e作为一个参数传入到t中   可以用这种方法创建一个命名空间，保证变量的纯洁性； ！function(){}()
     "use strict";
     "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, !0) : function (e) {
-        if (!e.document) throw new Error("jQuery requires a window with a document");
+        if (!e.document) {
+            throw new Error("jQuery requires a window with a document");
+        }
         return t(e)
     } : t(e)
+//    如果window对象不为空，则传入window对象，否则传入this对象
 }("undefined" != typeof window ? window : this, function (e, t) {
     "use strict";
     var n = [],
@@ -20,6 +26,7 @@
         p = f.toString,
         d = p.call(Object),
         h = {},
+        //这里做了限制，传入的t必须是一个function
         g = function e(t) {
             return "function" == typeof t && "number" != typeof t.nodeType
         },
@@ -34,8 +41,11 @@
 
     function m(e, t, n) {
         var i, o = (t = t || r).createElement("script");
-        if (o.text = e, n)
-            for (i in v) n[i] && (o[i] = n[i]);
+        if (o.text = e, n){
+            for (i in v) {
+                n[i] && (o[i] = n[i]);
+            }
+        }
         t.head.appendChild(o).parentNode.removeChild(o)
     }
 
